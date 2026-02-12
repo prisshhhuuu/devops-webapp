@@ -19,3 +19,13 @@ jobs:
           ls -la
           echo "CI build successful"
 
+      - name: Notify Slack
+        if: always()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": "GitHub CI Pipeline Status: ${{ job.status }} for devops-webapp"
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
